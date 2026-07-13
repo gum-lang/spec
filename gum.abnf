@@ -1,0 +1,88 @@
+;; gum is
+;; useful
+;; markup
+;;
+;; Reference:
+;; https://github.com/toml-lang/toml/blob/main/toml.abnf
+;; https://en.wikipedia.org/wiki/Augmented_Backus%E2%80%93Naur_form
+
+document     = *(expression / comment-line)
+
+expression   = *ws assignment *ws [comment] nl
+comment-line = *ws comment nl
+
+;; Path Chaining and Assignment
+assignment = path *ws "=" *ws value
+path       = key *( *ws "." *ws key )
+
+;; Keys = Values
+;; NOTE: "bare" keys cannot be true, false, or null
+key        = bare-key / quoted-string
+bare-key   = (ALPHA / underscore) *( ALPHA / DIGIT / underscore )
+value      = false / true / null / table / array / number / string
+underscore = %x5f ; _
+
+;; Data Types
+false = %x66.61.6c.73.65 ; false
+true  = %x74.72.75.65 ; true
+null  = %x6e.75.6c.6c ; null
+
+;; Tables
+table           = inline-table / multiline-table
+
+inline-table    = "{" *ws [ assignment *( *ws "," *ws assignment ) ] *ws "}"
+multiline-table = "{" *ws nl *(ws / comment-line / nl) *multiline-tbl-el "}"
+multiline-tbl-el = assignment multiline-sep *(ws / nl)
+
+;; Arrays
+array            = inline-array / multiline-array
+
+inline-array     = "[" *ws [ value *( *ws "," *ws value ) ] *ws "]"
+multiline-array  = "[" *ws nl *(ws / comment-line / nl) *multiline-arr-el "]"
+multiline-arr-el = value multiline-sep *(ws / nl)
+
+;; Strings
+string           = multiline-string / quoted-string
+
+;; NOTE: Multiline strings require additional parser logic:
+;;  - If the opening """ is followed immediately by a newline, it's discarded
+;;  - If the closing """ is on its own line, discard the trailing newline
+;;  - Every line should have whitespace trimmed equal to the whitespace left
+;;    of the closing """
+;; This aims to replicate Nix: https://nix.dev/manual/nix/2.24/language/syntax#string-literal
+multiline-string = triple-quote *ws nl ml-body triple-quote
+ml-body          = *( ml-line / ml-empty-line )
+ml-line          = *ws unescaped-ml *( escape-seq / unescaped-ml ) *ws nl
+ml-empty-line    = *ws nl
+triple-quote     = %x22.22.22 ; """
+unescaped-ml     = %x20-5B / %x5D-10FFFF ; excludes \
+
+quoted-string    = quotation-mark *char quotation-mark
+quotation-mark   = %x22 ; "
+char             = unescaped / escape-seq
+unescaped        = %x20-21 / %x23-5B / %x5D-10FFFF
+escape-seq       = escape ( %x22 / %x5C / %x2F / %x62 / %x66 / %x6E / %x72 / %x74 / %x75 4HEXDIG )
+escape           = %x5C ; \
+
+;; Numbers
+number        = [ minus ] dec-num
+minus         = %x2D ; -
+
+dec-num       = int [ frac ]
+int           = zero / ( digit1-9 *DIGIT )
+frac          = decimal-point 1*DIGIT
+zero          = %x30 ; 0
+digit1-9      = %x31-39 ; [1-9]
+decimal-point = %x2E ; .
+
+;; Non-Tokens
+comment            = "#" *non-ascii-or-space
+non-ascii-or-space = %x20-10FFFF
+ws                 = *( %x20 / %x09 ) ; Space / Tab
+nl                 = [ %x0D ] %x0A ; LF or CRLF
+multiline-sep      = *ws [ comment ] nl
+
+;; ABNF primitives
+ALPHA  = %x41-5A / %x61-7A
+DIGIT  = %x30-39
+HEXDIG = DIGIT / "A" / "B" / "C" / "D" / "E" / "F" / "a" / "b" / "c" / "d" / "e" / "f"
