@@ -41,12 +41,17 @@ Keys are on the left of the equals sign and values are on the right. Whitespace
 is ignored around key names and values. The key, equals sign, and value must be
 on the same line, though some values may be continued over multiple lines.
 
+Assignments are separated with commas, newlines, or both.
+
 ```ini
 key = "value"
+other = 2
+
+# comma-separated on one line
+a = 1, b = 2
 ```
 
-There can only be one value per line, and values must have one of 
-the following types:
+Values must have one of the following types:
 
 - [String](#string)
 - [Number](#number)
@@ -268,7 +273,8 @@ empty = {}
 
 ## List
 
-Lists are collections of values enclosed in square brackets. Elements are separated with newlines, commas, or both. Order matters in that it is preserved during parsing.
+Lists are collections of values enclosed in square brackets. Elements are separated with newlines, commas, or both. 
+Order matters in that it is preserved during parsing.
 
 ```ini
 integers = [1, 2, 3]

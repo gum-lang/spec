@@ -7,9 +7,7 @@
 ;; https://json5.dev/spec/grammar
 ;; https://en.wikipedia.org/wiki/Augmented_Backus%E2%80%93Naur_form
 
-document     = *(expression / comment-line)
-
-expression   = *ws assignment *ws [comment] nl
+document     = block-ws [ assignment *( element-sep assignment ) ] [ trailing-sep ]
 comment-line = *ws comment nl
 
 assignment   = path *ws "=" *ws value
