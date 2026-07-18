@@ -273,8 +273,7 @@ empty = {}
 
 ## List
 
-Lists are collections of values enclosed in square brackets. Elements are separated with newlines, commas, or both. 
-Order matters in that it is preserved during parsing.
+Lists are collections of values enclosed in square brackets. Elements are separated with newlines, commas, or both. Order matters in that it is preserved during parsing.
 
 ```ini
 integers = [1, 2, 3]
@@ -308,11 +307,10 @@ empty = []
 
 ## Full Example
 
-The following is a complete CAMEL document demonstrating all features:
+The following is a complete `gum` document demonstrating all features:
 
-```camel
-# camel config example
-name = "camel-parser"
+```ini
+# gum config example
 version = 1
 
 author.name = "Alice"
@@ -334,15 +332,17 @@ database = {
   }
 }
 
-description = """This is camel.
-It is markup everyone likes."""
+acronym = """
+      gum is
+      useful
+      markup
+"""
 ```
 
 Parsing this document produces the following JSON structure:
 
 ```json
 {
-  "name": "camel-parser",
   "version": 1,
   "author": {
     "name": "Alice",
@@ -362,6 +362,6 @@ Parsing this document produces the following JSON structure:
       "password": null
     }
   },
-  "description": "This is camel.\nIt is markup everyone likes."
+  "description": "gum is\nuseful\nmarkup"
 }
 ```

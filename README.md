@@ -1,45 +1,29 @@
 ![acronym](./assets/acronym.png)
 
-`gum` is a markup language for configuring software inspired by `TOML`, `Nix`, and `JSON`. Take a look at the [specification](./SPEC.md) to see how it works, or head over the the [website]() for broader documentation.
+`gum` is a markup language for configuring software inspired by `TOML`, `Nix`, and `JSON`. Take a look at the [specification](./SPEC.md) to see how it works, or head over the ~~[website](TBD)~~ for broader documentation.
 
 ## Usage
 
 There are a number of standardized [parsers]() for whatever language you're into at the moment:
 
 - [Python](https://github.com/gum-lang/python)
-- ~~[TypeScript]()~~
-- ~~[Java]()~~
-- ~~[Kotlin]()~~
-- ~~[C#]()~~
-- ~~[Go]()~~
-- ~~[Rust]()~~
-- ~~[Odin]()~~
-- ~~[C]()~~
-- ~~[Zig]()~~
+- ~~[TypeScript](TBD)~~
+- ~~[Java](TBD)~~
+- ~~[Kotlin](TBD)~~
+- ~~[C#](TBD)~~
+- ~~[Go](TBD)~~
+- ~~[Rust](TBD)~~
+- ~~[Odin](TBD)~~
+- ~~[C](TBD)~~
+- ~~[Zig](TBD)~~
 
-There is also a [CLI]() for validation, formatting, and conversion, and an [LSP]() with several editor plugins available:
+Each parser is designed to replicate the API of the JSON library for its respective platform.
 
-- ~~[VSCode]()~~
-- ~~[Neovim]()~~
-- ~~[Zed]()~~
+There is also a ~~[CLI](TBD)~~ for validation, formatting, and conversion, and an ~~[LSP](TBD)~~ with several editor plugins available:
 
-## Interface
-
-APIs are standardized to mirror Go's [encoding/json](https://pkg.go.dev/encoding/json) package.
-
-To turn data into `gum`:
-
-```psuedo
-fn Marshal(GUMData) -> (string, error)
-```
-
-To turn `gum` into data:
-
-```psuedo
-fn Unmarshal(string, GUMData) -> (error)
-```
-
-The exact API of a given parser will change as best fits a given platform/language, but at minimum you should expect them to implement the above two functions.
+- ~~[VSCode](TBD)~~
+- ~~[Neovim](TBD)~~
+- ~~[Zed](TBD)~~
 
 ## License
 
